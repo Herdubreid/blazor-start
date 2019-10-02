@@ -1,0 +1,33 @@
+﻿@inherits E1BaseComponent
+@using Cloudcrate.AspNetCore.Blazor.Browser.Storage;
+@inject SessionStorage SessionStorage
+
+<div class="navbar fixed-top navbar-light bg-light">
+    <div class="col-auto">@State.AuthResponse?.username</div>
+    <div class="col">@State.AuthResponse?.userInfo.alphaName</div>
+    <div class="col">@State.AuthResponse?.environment</div>
+    <div class="col-auto">
+        <button class="btn btn-warning" @onclick="@Logout"><i class="fas fa-sign-out-alt"></i></button>
+    </div>
+</div>
+@if (!State.Authenticated)
+{
+    <div id="overlay"></div>
+    <Login></Login>
+}
+
+@code {
+    protected async Task Logout() => await Mediator.Send(new LogoutAction());
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender && !State.Authenticated)
+        {
+            var resp = await SessionStorage.GetItemAsync<Celin.AIS.AuthResponse>(E1Service.SESSIONKEY);
+            if (resp != null)
+            {
+                await Mediator.Send(new LoginAction { AuthResponse = resp });
+            }
+        }
+    }
+}
