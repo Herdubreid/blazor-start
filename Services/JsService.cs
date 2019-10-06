@@ -10,9 +10,9 @@ namespace MyApp.Services
     {
         IJSRuntime JsRuntime { get; }
         DotNetObjectReference<JsService> ObjectReference { get; }
-        public void InitWelcome(string tag)
+        public void InitClock(string tag)
         {
-            JsRuntime.InvokeVoidAsync("window.welcome.init", tag);
+            JsRuntime.InvokeVoidAsync("window.clock.init", tag);
         }
         public JsService(IJSRuntime jsRuntime)
         {

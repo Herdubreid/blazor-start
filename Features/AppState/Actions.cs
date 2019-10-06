@@ -2,6 +2,19 @@
 
 namespace MyApp.Features.AppState
 {
+    public enum FormAction
+    {
+        Get, Save
+    }
+    public class AddressBookAction : IAction
+    {
+        public FormAction FormAction { get; set; }
+        public string AN8 { get; set; }
+    }
+    public class EditModeAction : IAction
+    {
+        public bool EditMode { get; set; }
+    }
     public class ListAddressBookAction : IAction
     {
         public string Search { get; set; }

@@ -25,7 +25,11 @@ namespace MyApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddServerSideBlazor();
+            services.AddServerSideBlazor()
+                .AddCircuitOptions(opt =>
+                {
+                    opt.DetailedErrors = true;
+                });
             services.AddHttpClient();
             services.AddSignalR();
             services.AddStorage();

@@ -1,10 +1,10 @@
 ﻿import './style.scss';
-import Welcome from './Welcome.svelte';
+import Clock from './Clock.svelte';
 
-window.welcome = {
+window.clock = {
     init: (tag) => {
         const target = document.getElementsByTagName(tag)[0];
-        Welcome = new Welcome({
+        Clock = new Clock({
             target,
             props: {}
         });

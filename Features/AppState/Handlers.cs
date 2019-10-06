@@ -2,6 +2,7 @@
 using MediatR;
 using MyApp.Services;
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,6 +10,44 @@ namespace MyApp.Features.AppState
 {
     public partial class AppState
     {
+        public class EditModeHandler : ActionHandler<EditModeAction>
+        {
+            AppState State => Store.GetState<AppState>();
+            public override Task<Unit> Handle(EditModeAction aAction, CancellationToken aCancellationToken)
+            {
+                State.EditMode = aAction.EditMode;
+                return Unit.Task;
+            }
+            public EditModeHandler(IStore store) : base(store) { }
+        }
+        public class AddressBookHandler : ActionHandler<AddressBookAction>
+        {
+            AppState State => Store.GetState<AppState>();
+            E1Service E1Service { get; }
+            public override async Task<Unit> Handle(AddressBookAction aAction, CancellationToken aCancellationToken)
+            {
+                try
+                {
+                    var rq = new E1.W01012A.Request(aAction.AN8);
+                    if (aAction.FormAction == FormAction.Save)
+                    {
+                        rq.SaveAction(State.AddressBook);
+                        State.EditMode = false;
+                    }
+                    var rs = await E1Service.RequestAsync<E1.W01012A.Response>(rq);
+                    State.AddressBook = rs.fs_P01012_W01012A.data;
+                }
+                catch (Celin.AIS.HttpWebException e)
+                {
+                    State.ErrorMsg = e.Message;
+                }
+                return Unit.Value;
+            }
+            public AddressBookHandler(IStore store, E1Service e1Service) : base(store)
+            {
+                E1Service = e1Service;
+            }
+        }
         public class ListAddressBookHandler : ActionHandler<ListAddressBookAction>
         {
             AppState State => Store.GetState<AppState>();
@@ -23,7 +62,7 @@ namespace MyApp.Features.AppState
                     State.AddressBookList = rs.fs_DATABROWSE_F0101.data.gridData.rowset;
                     State.ErrorMsg = string.Empty;
                 }
-                catch (Exception e)
+                catch (Celin.AIS.HttpWebException e)
                 {
                     State.ErrorMsg = e.Message;
                 }
