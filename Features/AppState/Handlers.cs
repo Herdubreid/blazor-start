@@ -2,7 +2,6 @@
 using MediatR;
 using MyApp.Services;
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,7 +36,7 @@ namespace MyApp.Features.AppState
                     var rs = await E1Service.RequestAsync<E1.W01012A.Response>(rq);
                     State.AddressBook = rs.fs_P01012_W01012A.data;
                 }
-                catch (Celin.AIS.HttpWebException e)
+                catch (Exception e)
                 {
                     State.ErrorMsg = e.Message;
                 }
@@ -62,7 +61,7 @@ namespace MyApp.Features.AppState
                     State.AddressBookList = rs.fs_DATABROWSE_F0101.data.gridData.rowset;
                     State.ErrorMsg = string.Empty;
                 }
-                catch (Celin.AIS.HttpWebException e)
+                catch (Exception e)
                 {
                     State.ErrorMsg = e.Message;
                 }
