@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazor-State" Version="1.0.0" />
+    <PackageReference Include="Blazor-State" Version="1.1.5" />
     <PackageReference Include="Celin.AIS" Version="1.1.0" />
     <PackageReference Include="Cloudcrate.AspNetCore.Blazor.Browser.Storage" Version="3.0.0" />
-    <PackageReference Include="Microsoft.Azure.SignalR" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Azure.SignalR" Version="1.1.1" />
   </ItemGroup>
 
 </Project>

@@ -13,6 +13,6 @@ namespace MyApp.Features.AppState
         public Celin.AIS.AuthResponse AuthResponse { get; set; }
         public bool Authenticated => AuthResponse != null;
         public DateTime LoginTime { get; set; }
-        protected override void Initialize() { }
+        public override void Initialize() { }
     }
 }
