@@ -35,6 +35,7 @@ namespace MyApp.Features.AppState
                     }
                     var rs = await E1Service.RequestAsync<E1.W01012A.Response>(rq);
                     State.AddressBook = rs.fs_P01012_W01012A.data;
+                    State.ErrorMsg = string.Empty;
                 }
                 catch (Exception e)
                 {

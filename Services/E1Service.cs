@@ -1,5 +1,6 @@
 ﻿using Cloudcrate.AspNetCore.Blazor.Browser.Storage;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -30,8 +31,8 @@ namespace MyApp.Services
             await LogoutAsync();
             await SessionStorage.RemoveItemAsync(SESSIONKEY);
         }
-        public E1Service(IConfiguration configuration, IHttpClientFactory httpClientFactory, SessionStorage sessionStorage)
-            : base(configuration["baseUrl"], httpClientFactory.CreateClient())
+        public E1Service(IConfiguration configuration, ILogger<E1Service> logger, IHttpClientFactory httpClientFactory, SessionStorage sessionStorage)
+            : base(configuration["baseUrl"], logger, httpClientFactory.CreateClient())
         {
             SessionStorage = sessionStorage;
         }

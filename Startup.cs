@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using MyApp.Features.AppState;
 using MyApp.Services;
 using System.Reflection;
@@ -31,7 +32,12 @@ namespace MyApp
                     opt.DetailedErrors = true;
                 });
             services.AddHttpClient();
-            services.AddSignalR();
+            services.AddLogging(logger =>
+            {
+                logger
+                    .AddConfiguration(Configuration.GetSection("Logging"))
+                    .AddApplicationInsights();
+            });
             services.AddStorage();
             services.AddBlazorState(
                 (options) => options.Assemblies = new Assembly[]
